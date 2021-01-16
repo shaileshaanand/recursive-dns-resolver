@@ -49,11 +49,11 @@ def resolve(dns_records, lookup_chain, domain)
       resolve(dns_records, lookup_chain, destination)
     else
       lookup_chain.push("Error: invalid record type '#{record_type}'")
-      return lookup_chain
     end
   else
     lookup_chain.push("Error: record not found for #{domain}")
   end
+  return lookup_chain
 end
 
 # ..
