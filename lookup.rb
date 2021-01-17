@@ -25,14 +25,11 @@ def parse_dns(dns_raw)
   # parse dns_raw data to a hash where domain points to a list consisting
   # destination and record_type
   dns_records = {}
-  dns_raw.each { |dns_entry|
-    if dns_entry.strip != "" and dns_entry.strip[0] != "#"
-      # first condition checks empty line and the second checks for comment
-      dns_row = dns_entry.strip.gsub(" ", "").split(",")
-      # removing extra spaces and then splitting by ','
-      dns_records[dns_row[1]] = [dns_row[2], dns_row[0]]
-    end
-  }
+  dns_raw.
+    reject { |line| line.empty? || line[0] == "#" }.
+    map { |line| line.strip.split(", ") }.
+    reject { |record| record.length < 3 }.
+    each { |record| dns_records[record[1]] = [record[2], record[0]] }
   return dns_records
 end
 
